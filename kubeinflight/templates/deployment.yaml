@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piaware
+  namespace: flightaware
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: apps.deployment-flightaware-piaware
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: apps.deployment-flightaware-piaware
+    spec:
+      affinity: {}
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: flightaware-env-file
+            optional: false
+        image: {{ .Values.piaware.image.repository }}:{{ .Values.piaware.image.tag }}
+        imagePullPolicy: {{ .Values.piaware.image.pullPolicy }}
+        name: piaware
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities: {}
+          privileged: true
+          readOnlyRootFilesystem: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /dev/bus/usb
+          name: usb
+      - args:
+        - --resource-path=http://localhost:8080/data
+        - --latitude={{ .Values.lat }}
+        - --longitude={{ .Values.long }}
+        image: clawsicus/dump1090exporter:latest
+        imagePullPolicy: Always
+        name: dump1090-exporter
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - hostPath:
+          path: /dev/bus/usb
+          type: ""
+        name: usb
