@@ -12,16 +12,25 @@ namespace: flightaware
 
 lat: 36.7134572
 long: -76.2757609
+tz: "America/New_York"
+receiver_type: rtlsdr
 
 piaware:
   image:  
     repository: mikenye/piaware
     pullPolicy: IfNotPresent
     tag: latest
-  tz: "America/New_York"
-
+  
+dump1090exporter:
+  enabled: true 
   #feeder_id: # Flightaware.com API key
-  receiver_type: rtlsdr
+  image:  
+    repository: clawsicus/dump1090exporter
+    pullPolicy: IfNotPresent
+    tag: latest
+
+  
+  
 
 dump1090exporter:
   enabled: true
