@@ -26,6 +26,7 @@ dump1090exporter:
   enabled: true
   image: 
     repository: clawsicus/dump1090exporter
+    # TODO: switch this to multi-arch image
     pullPolicy: Always
     tag: latest
 

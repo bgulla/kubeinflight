@@ -10,11 +10,13 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: 8080
+  {{- if .Values.dump1090exporter.enabled -}}
   - name: prom
     nodePort: 30592
     port: 9105
     protocol: TCP
     targetPort: 9105
+  {{- end }}
   selector:
     app: apps.deployment-flightaware-piaware
   sessionAffinity: None
