@@ -4,8 +4,8 @@ metadata:
   name: flightaware-env-file
   namespace: flightaware
 data:
-  TZ: "America/New_York"
-  LAT: "36.7134572"
-  LONG: "-76.2757609"
-  FEEDER_ID: 8921d173-bdaf-4b2a-a616-5bb6505cb778
-  RECEIVER_TYPE: rtlsdr
+  TZ: {{ .Values.tz | quote }}
+  LAT: {{ .Values.lat | quote }}
+  LONG: {{ .Values.long | quote }}
+  FEEDER_ID: {{ .Values.feeder_id | default "none" | quote }}
+  RECEIVER_TYPE: {{ .Values.receiver_type | quote }}

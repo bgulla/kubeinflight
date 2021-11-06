@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: piaware
-  namespace: flightaware
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -48,7 +48,7 @@ spec:
         - --resource-path=http://localhost:8080/data
         - --latitude={{ .Values.lat }}
         - --longitude={{ .Values.long }}
-        image: clawsicus/dump1090exporter:latest
+        image: {{ .Values.dump1090exporter.image.repository }}:{{ .Values.dump1090exporter.image.tag }}
         imagePullPolicy: Always
         name: dump1090-exporter
         resources: {}
