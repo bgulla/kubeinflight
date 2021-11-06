@@ -1,2 +1,23 @@
 ---
-#TODO
+{{- if .Values.ingress.enabled -}}
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    generation: 1
+    name: kubeinflight
+    namespace: {{ .Values.namespace }}
+    annotations:
+      {{- toYaml . | nindent 4 }}
+  spec:
+    rules:
+    - host: {{ .Values.ingress.hosts[0].host }}
+      http:
+        paths:
+        - backend:
+            service:
+              name: http-nodeport
+              port:
+                number: 8080
+          path: /
+          pathType: Prefix
+{{- end }}

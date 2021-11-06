@@ -48,7 +48,7 @@ spec:
         - --resource-path=http://localhost:8080/data
         - --latitude={{ .Values.lat }}
         - --longitude={{ .Values.long }}
-        image: clawsicus/dump1090exporter:latest
+        image: {{ .Values.dump1090exporter.image.repository }}:{{ .Values.dump1090exporter.image.tag }}
         imagePullPolicy: Always
         name: dump1090-exporter
         resources: {}
