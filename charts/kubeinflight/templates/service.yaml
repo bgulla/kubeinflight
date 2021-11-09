@@ -6,17 +6,21 @@ metadata:
 spec:
   ports:
   - name: http
+    {{ if .Values.piaware.enableNodePort }}
     nodePort: 30591
+    {{ end }}
     port: 8080
     protocol: TCP
     targetPort: 8080
-  {{- if .Values.dump1090exporter.enabled -}}
+  {{ if .Values.dump1090exporter.enabled }}
   - name: prom
+    {{ if .Values.dump1090exporter.enableNodePort }}
     nodePort: 30592
+    {{ end}}
     port: 9105
     protocol: TCP
     targetPort: 9105
-  {{- end }}
+  {{ end }}
   selector:
     app: apps.deployment-flightaware-piaware
   sessionAffinity: None
