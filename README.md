@@ -5,7 +5,7 @@
 ## Prerequisites
 * [RTL2832U Software Defined Radio](https://www.amazon.com/RTL-SDR-Blog-RTL2832U-Software-Defined/dp/B0129EBDS2/ref=sr_1_3?keywords=rtl+sdr&qid=1636478210&qsid=133-2081778-9779013&sr=8-3&sres=B0129EBDS2%2CB01GDN1T4S%2CB008S7AVTC%2CB07WGWZS1D%2CB01HA642SW%2CB01B4L48QU%2CB06Y1GN5RP%2CB06Y1FDDBF%2CB079C4S2BT%2CB0132MB8LM%2CB07W6VFWGS%2CB0132N1DM0%2CB06Y1D7P48%2CB073JZ8CC2%2CB07W3XQKXV%2CB009U7WZCA)
 * A Kubernetes Cluster (we like [k3s](https://k3s.io).)
-* *[Optional]* A [FlightAware] account 
+* *[Optional]* A [FlightAware](https://flightaware.com) account / API-Key
 * [Latitude and Longitude for your location](https://www.latlong.net/_)
 
 [Flightaware Build Instructions](https://flightaware.com/adsb/piaware/build/)
