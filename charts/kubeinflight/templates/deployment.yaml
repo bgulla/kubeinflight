@@ -20,7 +20,15 @@ spec:
       labels:
         app: apps.deployment-flightaware-piaware
     spec:
-      affinity: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: sdr
+                operator: In
+                values:
+                - "true"
       containers:
       - envFrom:
         - configMapRef:
@@ -44,7 +52,7 @@ spec:
         volumeMounts:
         - mountPath: /dev/bus/usb
           name: usb
-      {{- if .Values.dump1090exporter.enabled -}}
+      {{ if .Values.dump1090exporter.enabled }}
       - args:
         - --resource-path=http://localhost:8080/data
         - --latitude={{ .Values.lat }}
@@ -55,7 +63,7 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-      {{- end}}
+      {{ end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

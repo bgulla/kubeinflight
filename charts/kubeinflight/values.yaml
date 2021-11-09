@@ -14,27 +14,50 @@ lat: "36.7134572"
 long: "-76.2757609"
 tz: "America/New_York"
 receiver_type: rtlsdr
-feeder_id: "asdf"
+feeder_id: #blank #https://flightaware.com/adsb/piaware/build/
 
 piaware:
   image:  
     repository: mikenye/piaware
     pullPolicy: IfNotPresent
     tag: latest
+  enableNodeport: true
 
 dump1090exporter:
   enabled: true
-  image: 
-    repository: clawsicus/dump1090exporter
-    # TODO: switch this to multi-arch image
-    pullPolicy: Always
+  image:
+    repository:  clawsicus/dump1090exporter 
+    #repository: bgulla/dump1090exporter
+    pullPolicy: IfNotPresent
     tag: latest
+  enableNodeport: true
+
+## TODO
+grafana:
+  enabled: 
+  image: 
+    repository: grafana/grafana
+    pullPolicy: IfNotPresent
+    tag: 7.5.11
+  enableNodeport: true
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-
+ingress:
+  enabled: true
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: kubeinflight.dev
+      paths: []
+  # tls: []
+  # - secretName: tls-wilcard-goes-here
+  #   hosts:
+  #     - kubeinflight.dev
+        
 
 # serviceAccount:
 #   # Specifies whether a service account should be created
@@ -45,13 +68,13 @@ fullnameOverride: ""
 #   # If not set and create is true, a name is generated using the fullname template
 #   name: ""
 
-podAnnotations: {}
+# podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+# podSecurityContext: {}
+#   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
+# securityContext: {}
+#   # capabilities:
   #   drop:
   #   - ALL
   # readOnlyRootFilesystem: true
@@ -62,15 +85,7 @@ securityContext: {}
 #   type: ClusterIP
 #   port: 80
 
-ingress:
-  enabled: true
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: kubeinflight.dev
-      paths: []
-  tls: []
+
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
