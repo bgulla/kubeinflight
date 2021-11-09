@@ -27,6 +27,15 @@ kubectl label node <node_with_usb_sdr> sdr=true
 
 ## Prometheus/`dump1090exporter`
 ![Grafana](/static/grafana.png?raw=true)
+```bash
+scrape_configs:
+  - job_name: 'dump1090'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ['<nodeport_ip>:30669']
+```
+Note: Currently you need to BYO grafana/prometheus, I will be adding internal deployment of these pods soon-ish.
 
 ## Values
 
