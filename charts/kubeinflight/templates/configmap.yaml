@@ -9,3 +9,68 @@ data:
   LONG: {{ .Values.long | quote }}
   FEEDER_ID: {{ .Values.feeder_id | default "none" | quote }}
   RECEIVER_TYPE: {{ .Values.receiver_type | quote }}
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: {{ default "flightaware" .Values.namespace | quote }}
+data:
+  prometheus.yaml: |-
+    {
+        "apiVersion": 1,
+        "datasources": [
+            {
+               "access":"proxy",
+                "editable": true,
+                "name": "prometheus",
+                "orgId": 1,
+                "type": "prometheus",
+                "url": "http://prometheus-service.flightaware.svc:9090",
+                "version": 1
+            }
+        ]
+    }
+
+---
+apiVersion: v1
+data:
+  dashboardConfig.yaml: |-
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: false
+      options:
+        path: /var/lib/grafana/dashboards
+kind: ConfigMap
+metadata:
+  name: grafana-config
+  namespace: {{ default "flightaware" .Values.namespace | quote }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-server-conf
+  labels:
+    name: prometheus-server-conf
+  namespace: {{ default "flightaware" .Values.namespace | quote }}
+data:
+  prometheus.yml: |-
+    global:
+      scrape_interval: 5s
+      evaluation_interval: 5s
+
+    scrape_configs:
+      - job_name: 'dump1090'
+        scrape_interval: 10s
+        scrape_timeout: 5s
+        static_configs:
+          - targets: ['http-nodeport.{{ default "flightaware" .Values.namespace }}.svc:9105']
+      
