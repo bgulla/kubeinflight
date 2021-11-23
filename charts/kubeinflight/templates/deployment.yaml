@@ -81,9 +81,9 @@ spec:
           - name: grafana-config
             mountPath: /etc/grafana/provisioning/dashboards/dashboardConfig.yaml
             subPath: dashboardConfig.yaml
-          - mountPath: /var/lib/grafana/dashboards/dump1090-dashboard.json
+          - mountPath: /var/lib/grafana/dashboards/dump1090-export.json
             name: dashboard-templates
-            subPath: dump1090-dashboard.json
+            subPath: dump1090-export.json
       {{ end }}
       {{ if .Values.prometheus.enabled }}
       - image: {{ default "prom/prometheus" .Values.prometheus.image.repository }}:{{ default "latest" .Values.prometheus.image.tag }}
@@ -125,8 +125,8 @@ spec:
         configMap:
           defaultMode: 420
           items:
-          - key: dump1090-dashboard.json
-            path: dump1090-dashboard.json
+          - key: dump1090-export.json
+            path: dump1090-export.json
           name: dump1090-dashboard
       {{ end }}
       - hostPath:
