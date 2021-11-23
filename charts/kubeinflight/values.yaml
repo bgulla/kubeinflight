@@ -15,12 +15,13 @@ long: "-76.2757609"
 tz: "America/New_York"
 receiver_type: rtlsdr
 feeder_id: #blank #https://flightaware.com/adsb/piaware/build/
+#feeder_id: 8921d173-bdaf-4b2a-a616-5bb6505cb778
 
 piaware:
   image:  
     repository: mikenye/piaware
     pullPolicy: IfNotPresent
-    tag: latest
+    tag: v5.0_amd64
   enableNodeport: true
 
 dump1090exporter:
@@ -34,11 +35,24 @@ dump1090exporter:
 
 ## TODO
 grafana:
-  enabled: 
-  image: 
+  enabled: true
+  image:
     repository: grafana/grafana
+    tag: 6.7.1-ubuntu
     pullPolicy: IfNotPresent
-    tag: 7.5.11
+  enableNodeport: true
+  auth:
+    basic:
+      enabled: true
+    anonymous:
+      enabled: true
+
+prometheus:
+  enabled: true
+  image:
+    repository: prom/prometheus
+    tag: latest
+    pullPolicy: IfNotPresent
   enableNodeport: true
 
 imagePullSecrets: []

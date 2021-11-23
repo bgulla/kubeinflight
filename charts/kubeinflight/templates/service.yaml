@@ -6,22 +6,50 @@ metadata:
 spec:
   ports:
   - name: http
-    {{ if .Values.piaware.enableNodePort }}
+    # {{ if .Values.piaware.enableNodePort }}
     nodePort: 30591
-    {{ end }}
+    # {{ end }}
     port: 8080
     protocol: TCP
     targetPort: 8080
   {{ if .Values.dump1090exporter.enabled }}
-  - name: prom
-    {{ if .Values.dump1090exporter.enableNodePort }}
+  - name: prom-exporter
+    # {{ if .Values.dump1090exporter.enableNodePort }}
     nodePort: 30592
-    {{ end}}
+    # {{ end}}
     port: 9105
     protocol: TCP
     targetPort: 9105
+  {{ end }}
+  {{ if .Values.grafana.enabled }}
+  - name: grafana
+    # {{ if .Values.dump1090exporter.enableNodePort }}
+    nodePort: 30599
+    # {{ end}}
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
   {{ end }}
   selector:
     app: apps.deployment-flightaware-piaware
   sessionAffinity: None
   type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  namespace: {{ default "flightaware" .Values.namespace | quote }}
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9090'
+spec:
+  selector:
+    app: apps.deployment-flightaware-piaware
+  type: NodePort
+  ports:
+    - port: 9090
+      targetPort: 9090
+      nodePort: {{ default 30069 .Values.prometheus.nodePort  }}

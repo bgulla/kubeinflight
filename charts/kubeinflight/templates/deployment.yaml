@@ -19,6 +19,7 @@ spec:
       creationTimestamp: null
       labels:
         app: apps.deployment-flightaware-piaware
+        # app: prometheus-server
     spec:
       affinity:
         nodeAffinity:
@@ -58,11 +59,44 @@ spec:
         - --latitude={{ .Values.lat }}
         - --longitude={{ .Values.long }}
         image: {{ .Values.dump1090exporter.image.repository }}:{{ .Values.dump1090exporter.image.tag }}
-        imagePullPolicy: Always
+        imagePullPolicy: {{ default "Always" .Values.dump1090exporter.image.pullPolicy }}
         name: dump1090-exporter
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+      {{ end }}
+      {{ if .Values.grafana.enabled }}
+      - image: {{ default "grafana/grafana" .Values.grafana.image.repository }}:{{ default "latest" .Values.grafana.image.tag }}
+        imagePullPolicy: {{ default "Always" .Values.grafana.image.pullPolicy }}
+        name: grafana
+        env:
+          - name: GF_AUTH_BASIC_ENABLED
+            value: {{ default "true" .Values.grafana.auth.basic.enabled | quote }}
+          - name: GF_AUTH_ANONYMOUS_ENABLED
+            value: {{ default "true" .Values.grafana.auth.anonymous.enabled | quote }}
+        volumeMounts:
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+            readOnly: false
+          - name: grafana-config
+            mountPath: /etc/grafana/provisioning/dashboards/dashboardConfig.yaml
+            subPath: dashboardConfig.yaml
+          - mountPath: /var/lib/grafana/dashboards/dump1090-export.json
+            name: dashboard-templates
+            subPath: dump1090-export.json
+      {{ end }}
+      {{ if .Values.prometheus.enabled }}
+      - image: {{ default "prom/prometheus" .Values.prometheus.image.repository }}:{{ default "latest" .Values.prometheus.image.tag }}
+        imagePullPolicy: {{ default "Always" .Values.prometheus.image.pullPolicy }}
+        name: prometheus
+        args:
+          - "--config.file=/etc/prometheus/prometheus.yml"
+          - "--storage.tsdb.path=/prometheus/"
+        ports:
+          - containerPort: 9090
+        volumeMounts:
+          - name: prometheus-config-volume
+            mountPath: /etc/prometheus/
       {{ end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -70,6 +104,31 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
+      {{ if .Values.prometheus.enabled }}
+      - name: prometheus-config-volume
+        configMap:
+          defaultMode: 420
+          name: prometheus-server-conf 
+      {{ end }}
+      {{ if .Values.grafana.enabled }}
+      - name: grafana-datasources
+        configMap:
+            defaultMode: 420
+            name: grafana-datasources
+      - name: grafana-config
+        configMap:
+          name: grafana-config
+          items:
+          - key: dashboardConfig.yaml
+            path: dashboardConfig.yaml
+      - name: dashboard-templates
+        configMap:
+          defaultMode: 420
+          items:
+          - key: dump1090-export.json
+            path: dump1090-export.json
+          name: dump1090-dashboard
+      {{ end }}
       - hostPath:
           path: /dev/bus/usb
           type: ""
