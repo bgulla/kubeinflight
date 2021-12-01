@@ -22,7 +22,9 @@ piaware:
     repository: mikenye/piaware
     pullPolicy: IfNotPresent
     tag: v5.0_amd64
-  enableNodeport: true
+  nodeport:
+    enable: true
+    port: 30068
 
 dump1090exporter:
   enabled: true
@@ -31,7 +33,9 @@ dump1090exporter:
     #repository: bgulla/dump1090exporter
     pullPolicy: IfNotPresent
     tag: latest
-  enableNodeport: true
+  nodeport:
+    enable: true
+    port: 30070
 
 ## TODO
 grafana:
@@ -40,12 +44,14 @@ grafana:
     repository: grafana/grafana
     tag: 6.7.1-ubuntu
     pullPolicy: IfNotPresent
-  enableNodeport: true
   auth:
     basic:
       enabled: true
     anonymous:
       enabled: true
+  nodeport:
+    enable: true
+    port: 30071
 
 prometheus:
   enabled: true
