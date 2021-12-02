@@ -6,26 +6,26 @@ metadata:
 spec:
   ports:
   - name: http
-    # {{ if .Values.piaware.enableNodePort }}
-    nodePort: 30591
-    # {{ end }}
+    {{ if .Values.piaware.nodeport.enable }}
+    nodePort: {{ default 30069 .Values.piaware.nodeport.port  }}
+    {{ end }}
     port: 8080
     protocol: TCP
     targetPort: 8080
   {{ if .Values.dump1090exporter.enabled }}
   - name: prom-exporter
-    # {{ if .Values.dump1090exporter.enableNodePort }}
-    nodePort: 30592
-    # {{ end}}
+    {{ if .Values.dump1090exporter.nodeport.enable }}
+    nodePort: {{ default 30070 .Values.dump1090exporter.nodeport.port  }}
+    {{ end}}
     port: 9105
     protocol: TCP
     targetPort: 9105
   {{ end }}
   {{ if .Values.grafana.enabled }}
   - name: grafana
-    # {{ if .Values.dump1090exporter.enableNodePort }}
-    nodePort: 30599
-    # {{ end}}
+    {{ if .Values.grafana.nodeport.enable }}
+    nodePort: {{ default 30071 .Values.grafana.nodeport.port  }}
+    {{ end}}
     port: 3000
     protocol: TCP
     targetPort: 3000
@@ -52,4 +52,4 @@ spec:
   ports:
     - port: 9090
       targetPort: 9090
-      nodePort: {{ default 30069 .Values.prometheus.nodePort  }}
+      nodePort: {{ default 30063 .Values.prometheus.nodePort  }}
