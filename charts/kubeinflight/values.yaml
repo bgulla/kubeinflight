@@ -15,7 +15,7 @@ long: "-76.2757609"
 tz: "America/New_York"
 receiver_type: rtlsdr
 feeder_id: #blank #https://flightaware.com/adsb/piaware/build/
-#feeder_id: 8921d173-bdaf-4b2a-a616-5bb6505cb778
+
 
 piaware:
   image:  
@@ -23,7 +23,7 @@ piaware:
     pullPolicy: IfNotPresent
     tag: v5.0_amd64
   nodeport:
-    enable: true
+    enable: true #TODO: need to change this to enabled not enable
     port: 30068
 
 dump1090exporter:
@@ -51,6 +51,7 @@ grafana:
       enabled: true
   nodeport:
     enable: true
+
     port: 30071
 
 prometheus:
@@ -60,6 +61,12 @@ prometheus:
     tag: latest
     pullPolicy: IfNotPresent
   enableNodeport: true
+  persistence:
+    accessMode: ReadWriteMany
+    enabled: true
+    #storageClass: longhorn
+    size: 2Gi
+
 
 imagePullSecrets: []
 nameOverride: ""

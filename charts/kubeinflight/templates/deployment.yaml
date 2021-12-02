@@ -97,6 +97,10 @@ spec:
         volumeMounts:
           - name: prometheus-config-volume
             mountPath: /etc/prometheus/
+      {{- if .Values.prometheus.persistence.enabled }}
+          - name: prometheus-data
+            mountPath: /prometheus/
+      {{ end }}  
       {{ end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -110,6 +114,12 @@ spec:
           defaultMode: 420
           name: prometheus-server-conf 
       {{ end }}
+      {{ if .Values.prometheus.persistence.enabled }}
+      - name: prometheus-data
+        persistentVolumeClaim:
+            claimName: prometheus-data-pvc
+      {{ end }}
+
       {{ if .Values.grafana.enabled }}
       - name: grafana-datasources
         configMap:
