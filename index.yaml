@@ -3,6 +3,16 @@ entries:
   kubeinflight:
   - apiVersion: v2
     appVersion: 1.16.1
+    created: "2022-01-27T21:30:07.117426822Z"
+    description: A Helm chart for Kubernetes
+    digest: d79e7d3415231bd30d57c7c51ffb1068e947f4c47e0995bb4d44a7085bc80027
+    name: kubeinflight
+    type: application
+    urls:
+    - https://github.com/bgulla/kubeinflight/releases/download/kubeinflight-0.1.9-dev/kubeinflight-0.1.9-dev.tgz
+    version: 0.1.9-dev
+  - apiVersion: v2
+    appVersion: 1.16.1
     created: "2021-12-02T17:00:38.465873788Z"
     description: A Helm chart for Kubernetes
     digest: 2bc595cda224e8260aeed4d412d980517e324e3140fb63a7d8055b0056f53ea0
