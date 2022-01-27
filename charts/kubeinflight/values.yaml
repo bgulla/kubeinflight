@@ -21,20 +21,21 @@ piaware:
   image:  
     repository: mikenye/piaware
     pullPolicy: IfNotPresent
-    tag: v5.0_amd64
+    tag: latest
+    #tag: v5.0_amd64
   nodeport:
-    enable: true #TODO: need to change this to enabled not enable
+    enabled: true #TODO: need to change this to enabled not enable
     port: 30068
 
 dump1090exporter:
   enabled: true
   image:
-    repository:  clawsicus/dump1090exporter 
-    #repository: bgulla/dump1090exporter
+    #repository:  clawsicus/dump1090exporter 
+    repository: bgulla/dump1090exporter
     pullPolicy: IfNotPresent
     tag: latest
   nodeport:
-    enable: true
+    enabled: true
     port: 30070
 
 ## TODO
@@ -50,7 +51,7 @@ grafana:
     anonymous:
       enabled: true
   nodeport:
-    enable: true
+    enabled: true
 
     port: 30071
 
@@ -63,7 +64,7 @@ prometheus:
   enableNodeport: true
   persistence:
     accessMode: ReadWriteMany
-    enabled: true
+    enabled: false
     #storageClass: longhorn
     size: 2Gi
 
