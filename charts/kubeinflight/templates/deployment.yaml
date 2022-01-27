@@ -64,6 +64,9 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        env:
+          - name: RESOURCE_PATH
+            value: "http://localhost:8080/data"
       {{ end }}
       {{ if .Values.grafana.enabled }}
       - image: {{ default "grafana/grafana" .Values.grafana.image.repository }}:{{ default "latest" .Values.grafana.image.tag }}
