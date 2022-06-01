@@ -68,6 +68,22 @@ spec:
           - name: RESOURCE_PATH
             value: "http://localhost:8080/data"
       {{ end }}
+      {{ if .Values.fr24feed.enabled }}
+      - image: {{ .Values.fr24feed.image.repository }}:{{ .Values.fr24feed.image.tag }}
+        imagePullPolicy: {{ default "Always" .Values.fr24feed.image.pullPolicy }}
+        name: fr24feed
+        envFrom:
+        - configMapRef:
+            name: flightradar-env-file
+            optional: false
+        env:
+          - name: MLAT
+            value: {{ default "yes" .Values.fr24feed.mlat | quote }}
+          - name: BEASTHOST
+            value: http-nodeport.{{ default "flightaware" .Values.namespace }}.svc
+          - name: BEASTPORT
+            value: {{ default "30005" .Values.fr24feed.beasthost | quote }}
+      {{ end }}
       {{ if .Values.grafana.enabled }}
       - image: {{ default "grafana/grafana" .Values.grafana.image.repository }}:{{ default "latest" .Values.grafana.image.tag }}
         imagePullPolicy: {{ default "Always" .Values.grafana.image.pullPolicy }}
