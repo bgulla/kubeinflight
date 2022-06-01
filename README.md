@@ -11,19 +11,29 @@
 
 [Flightaware Build Instructions](https://flightaware.com/adsb/piaware/build/)
 
-## Installation Instructions
+## Quick Start Installation Instructions
 ```bash
 # Add the kubeinflight helm chart repo
 helm repo add kubeinflight https://bgulla.github.io/kubeinflight
 helm repo update
 
+## Note: kubeinflight will only run on nodes that are labeled as having an SDR attached. Do the following:
+kubectl label node <node_with_usb_sdr> sdr=true
+
 # Install the helm chart
 helm install kubeinflight kubeinflight/kubeinflight  \
   -n flightaware \
   --create-namespace
+```
 
-## Note: kubeinflight will only run on nodes that are labeled as having an SDR attached. Do the following:
-kubectl label node <node_with_usb_sdr> sdr=true
+## Example Installation Instructions
+Installing full suite for reporting to FlightAware and FlightRadar24 with example ingress enabled
+```bash
+helm install kubeinflight kubeinflight/kubeinflight \
+  -n flightaware  --create-namespace --set replicaCount=1 \ 
+  --set lat="##.##########" --set long='-##.###########' \ 
+  --set ingress.enabled='true' --set 'ingress.hosts[0].host'='adbs.example.com' \
+  --set fr24feed.enabled='true' --set fr24feed_key='YOURFR24KEY'
 ```
 
 ## Prometheus/`dump1090exporter`
