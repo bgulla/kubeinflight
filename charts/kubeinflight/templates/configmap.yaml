@@ -9,6 +9,15 @@ data:
   LONG: {{ .Values.long | quote }}
   FEEDER_ID: {{ .Values.feeder_id | default "none" | quote }}
   RECEIVER_TYPE: {{ .Values.receiver_type | quote }}
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flightradar-env-file
+  namespace: flightaware
+data:
+  FR24KEY: {{ .Values.fr24feed_key | default "none" | quote }}
 
 ---
 
