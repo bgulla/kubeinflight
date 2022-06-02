@@ -60,10 +60,13 @@ Note: Currently you need to BYO grafana/prometheus, I will be adding internal de
 | dump1090exporter.nodeport.port | int | `30070` |  |
 | feeder_id | string | `nil` |  |
 | fr24feed_key | string | `nil` |  |
+| fr24feed.beasthost | string | `http-nodeport.flightaware.svc` |  |
+| fr24feed.beastport | string | `30005` |  |
 | fr24feed.enabled | bool | `false` |  |
 | fr24feed.image.repository | string | `mikenye/fr24feed` |  | 
 | fr24feed.image.pullPolicy | string | `IfNotPresent` |  |
 | fr24feed.image.tag | string | `latest` |  |
+| fr24feed.mlat | string | `yes` |  |
 | fr24feed.nodeport.enable | bool | `false` |  |
 | fr24feed.nodeport.port | int | `30072` |  |
 | fullnameOverride | string | `""` |  |
