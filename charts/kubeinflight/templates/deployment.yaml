@@ -80,9 +80,9 @@ spec:
           - name: MLAT
             value: {{ default "yes" .Values.fr24feed.mlat | quote }}
           - name: BEASTHOST
-            value: http-nodeport.{{ default "flightaware" .Values.namespace }}.svc
+            value: {{ default "http-nodeport.flightaware.svc" .Values.fr24feed.beasthost | quote }}
           - name: BEASTPORT
-            value: {{ default "30005" .Values.fr24feed.beasthost | quote }}
+            value: {{ default "30005" .Values.fr24feed.beastport | quote }}
       {{ end }}
       {{ if .Values.grafana.enabled }}
       - image: {{ default "grafana/grafana" .Values.grafana.image.repository }}:{{ default "latest" .Values.grafana.image.tag }}
