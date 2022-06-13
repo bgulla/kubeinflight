@@ -15,6 +15,7 @@ long: "-76.2757609"
 tz: "America/New_York"
 receiver_type: rtlsdr
 feeder_id: #blank #https://flightaware.com/adsb/piaware/build/
+fr24feed_key: #blank #https://www.flightradar24.com/account/data-sharing
 
 
 piaware:
@@ -37,6 +38,16 @@ dump1090exporter:
   nodeport:
     enabled: true
     port: 30070
+
+fr24feed:
+  enabled: false
+  image:
+    repository: mikenye/fr24feed
+    pullPolicy: IfNotPresent
+    tag: latest
+  nodeport:
+    enabled: true
+    port: 30072
 
 ## TODO
 grafana:

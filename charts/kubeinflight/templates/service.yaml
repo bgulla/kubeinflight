@@ -12,6 +12,15 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: 8080
+  {{ if .Values.fr24feed.enabled }}
+  - name: fr24feed
+    {{ if .Values.fr24feed.nodeport.enable }}
+    nodePort: {{ default 30072 .Values.fr24feed.nodeport.port  }}
+    {{ end }}
+    port: 30005
+    protocol: TCP
+    targetPort: 30005
+  {{ end }}
   {{ if .Values.dump1090exporter.enabled }}
   - name: prom-exporter
     {{ if .Values.dump1090exporter.nodeport.enable }}
@@ -30,6 +39,7 @@ spec:
     protocol: TCP
     targetPort: 3000
   {{ end }}
+
   selector:
     app: apps.deployment-flightaware-piaware
   sessionAffinity: None
