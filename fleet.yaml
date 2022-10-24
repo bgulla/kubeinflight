@@ -1,0 +1,4 @@
+defaultNamespace: flightaware
+
+helm:
+  chart: ./chart
