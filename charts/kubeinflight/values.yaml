@@ -22,7 +22,8 @@ piaware:
   image:  
     repository: mikenye/piaware
     pullPolicy: IfNotPresent
-    tag: latest
+    tag: v7.1_nohealthcheck
+#    tag: v7.2_linux_amd64
     #tag: v5.0_amd64
   nodeport:
     enabled: true #TODO: need to change this to enabled not enable
