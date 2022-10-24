@@ -28,6 +28,9 @@ piaware:
   nodeport:
     enabled: true #TODO: need to change this to enabled not enable
     port: 30068
+  sslip:
+    enabled: true
+    host: no-sslip.flightaware.10.0.5.93.sslip.io
 
 dump1090exporter:
   enabled: true
