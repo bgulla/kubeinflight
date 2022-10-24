@@ -71,7 +71,7 @@ prometheus:
   enabled: true
   image:
     repository: prom/prometheus
-    tag: latest
+    tag: v2.37.0
     pullPolicy: IfNotPresent
   enableNodeport: true
   persistence:
