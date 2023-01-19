@@ -10,8 +10,8 @@ namespace: flightaware
 #   # Overrides the image tag whose default is the chart appVersion.
 #   tag: ""
 
-lat: "36.7134572"
-long: "-76.2757609"
+lat: "38.9589096
+long: "-77.3614631"
 tz: "America/New_York"
 receiver_type: rtlsdr
 feeder_id: #blank #https://flightaware.com/adsb/piaware/build/
