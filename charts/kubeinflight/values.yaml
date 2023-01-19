@@ -10,7 +10,7 @@ namespace: flightaware
 #   # Overrides the image tag whose default is the chart appVersion.
 #   tag: ""
 
-lat: "38.9589096
+lat: "38.9589096"
 long: "-77.3614631"
 tz: "America/New_York"
 receiver_type: rtlsdr
