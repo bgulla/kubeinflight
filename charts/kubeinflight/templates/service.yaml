@@ -63,3 +63,26 @@ spec:
     - port: 9090
       targetPort: 9090
       nodePort: {{ default 30063 .Values.prometheus.nodePort  }}
+
+
+---
+{{ if .Values.piaware.sslip.enable }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: no-sslip
+  namespace: flightaware
+spec:
+  rules:
+  - host: no-sslip.flightaware.10.0.5.93.sslip.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: http-nodeport
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+
+{{ end }}

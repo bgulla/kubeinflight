@@ -50,6 +50,11 @@ spec:
           readOnlyRootFilesystem: false
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        env:
+          - name: lat
+            value: {{ default "38.8938671" .Values.lat | quote }}
+          - name: long
+            value: {{ default "-77.084787" .Values.long | quote }}
         volumeMounts:
         - mountPath: /dev/bus/usb
           name: usb

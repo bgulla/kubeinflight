@@ -1,4 +1,4 @@
 defaultNamespace: flightaware
 
 helm:
-  chart: ./chart
+  chart: ./charts/kubeinflight
